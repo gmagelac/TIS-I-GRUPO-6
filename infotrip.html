@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" 
+    	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+    	crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="../data/css/sticky-footer.css" rel="stylesheet">
+
+  </head>
+
+
+  <body>
+
+	<!-- barra de pesquisa superior -->
+	<nav id="pesquisa-sup" class="navbar navbar-light bg-light">
+	
+		<!--Imagen do lado superior esquerdo -->
+ 		 <a class="navbar-brand" href="#">
+ 		 <!-- Imagem na barra superior
+			 <img src="../data/img/infotrip.pnp" 
+			 	width="30" 
+			 	height="30" 
+			 	class="d-inline-block align-top" 
+			 	alt="">
+		--> 
+		 </a>
+
+		<div class="form-inline" >
+    		<input id="texto-pesquisa-sup" class="form-control"  type="text" 
+    			placeholder="Persquisar por qual região" aria-label="Search">
+    		<button id="bt-pesquisa-sup" class="btn btn-outline-success" 
+    			type="button">Pesquisar!</button>
+		</div>
+    			<button class="navbar-toggler" type="button" data-toggle="collapse" 
+    				data-target="#navbarToggleExternalContent" 
+    				aria-controls="navbarToggleExternalContent" 
+    				aria-expanded="false" 
+    				aria-label="Toggle navigation">
+      				<span class="navbar-toggler-icon"></span>
+    			</button>
+
+
+	</nav>
+
+
+   <!-- pesquisa parte inferior da tela -->
+
+    <div id="pesquisa-inf" class="container">
+		<img class="card-img-top" src="../data/img/infotrip.png" alt="Card image cap">
+		<br><br><br>
+		
+      	<div class="col-lg-10">
+        	<div class="input-group">
+	
+        	  	<input id="texto-pesquisa-inf" type="text" class="form-control" 
+          			placeholder="Pesquisar em qual região..." 
+          			aria-label="Procurar por...">
+    	      	<span class="input-group-btn">
+            		<button id="bt-pesquisa-inf"  class="btn btn-secondary" 
+            			type="button">Pesquisar!</button>
+  	        	</span>
+			</div>
+			<b>   </b>
+        
+     	 </div>
+    </div>
+
+
+
+	<!-- Dividir a tela em duas -->
+	<div class="col-sm-11"> <p></p>
+		<div id="resultado-pesquisa" class="row">
+	  		<div class="col-sm-6">
+	    		<div class="card">
+					<div class="card-header"> Resultado Positivo </div>
+
+	      				<div class="card-body">
+							<div id="resultado-positivo" class ="container">
+							
+							<!--  A pesquisa será apresentada aqui -->
+							</div>
+	      				</div>
+	    			</div>
+	  		</div>
+	  		<div class="col-sm-6">
+	    		<div class="card">
+					<div class="card-header">Resultado Negativo</div>
+	      				<div class="card-body">
+							<div id="resultado-negativo" class ="container">
+							<!--  A pesquisa será apresentada aqui -->
+							</div>
+	      				</div>
+	    			</div>
+	  			</div>
+			</div>
+	</div>
+
+
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">Trabalho Interdiciplinar de Software - Grupo 6. Sistema de recomendação de viagens</span>
+      </div>
+
+    </footer>
+
+    <!-- Referencias ao Java escript utilizado no Bootstrap -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+     			integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" 
+     			crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" 
+    		integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" 
+    		crossorigin="anonymous">
+    </script>
+
+
+
+
+    <script type="text/javascript">
+	<!-- esconde a pesquisa na parte superior da página -->
+	
+	$("#pesquisa-sup").hide();
+	$("#resultado-pesquisa").hide();
+	
+   </script>
+
+
+<script type="text/javascript">
+function SearchCompleted(response)
+{
+    var html = "";
+    $("#resultado-positivo").html("");
+
+    if (response.items == null)
+    {
+        $("#resultado-positivo").html("No matching pages found");
+        return;
+    }
+
+    if (response.items.length === 0)
+    {
+        $("#resultado-positivo").html("No matching pages found");
+        return;
+    }
+
+    $("#resultado-positivo").html(response.queries.request[0].totalResults + " pages found");
+
+    if (response.queries.nextPage != null)
+    {
+        _nextIndex = response.queries.nextPage[0].startIndex;
+        $("#lnkNext").show();
+    }
+    else
+    {
+        $("#lnkNext").hide();
+    }
+
+    if (response.queries.previousPage != null)
+    {
+        _prevIndex = response.queries.previousPage[0].startIndex;
+        $("#lnkPrev").show();
+    }
+    else
+    {
+        $("#lnkPrev").hide();
+    }
+
+    if (response.queries.request[0].totalResults > _resultsPerPage)
+    {
+        $("#lblPageNumber").show().html(_pageNumber);
+    }
+    else
+    {
+        $("#lblPageNumber").hide();
+    }
+
+    for (var i = 0; i < response.items.length; i++)
+    {
+        var item = response.items[i];
+        var title = item.htmlTitle;
+        var icon = icon = "class='cmisc' title='Other page'";
+
+        title = title.replace("- Peter Hahndorf", "");
+        title = title.replace("- Forever Breathes The Lonely Word", "");
+        title = title.replace("Forever Breathes The Lonely Word - ", "");
+
+        if (item.link.indexOf("/tech/") > -1)
+        {
+            icon = "class='ctech' title='Tech Stuff'";
+        }
+
+        if (item.link.indexOf("/trip/") > -1)
+        {
+            icon = "class='ctravel' title='Travel'";
+        }
+
+        if (item.link.indexOf("/blog/") > -1)
+        {
+            icon = "class='cblog' title='Technical blog'";
+        }
+
+        html += "<div><div class='hcHead2'><a " + icon + " href='" + item.link + "'> " + title + "</a></div>";
+        html += item.htmlSnippet + "</div>";
+    }
+
+    $("#output").html(html);
+}
+
+</script>
+
+
+<script type="text/javascript">
+	<!-- Esconde a pesquisa na parte inferior e faz a consulta ao google -->
+	$(document).ready(
+		function(){
+			$("#bt-pesquisa-inf").click(function(){
+					var texto_pesquisa = $("#texto-pesquisa-inf").val()
+					$("#texto-pesquisa-sup").val(texto_pesquisa);
+
+					$("#pesquisa-inf").hide();
+					$("#pesquisa-sup").show();
+					$("#resultado-pesquisa").show();
+					$("#bt-pesquisa-sup").click();
+				});
+
+			$("#bt-pesquisa-sup").click(function(){
+				<!-- Faz a pesquisa usando a api do google -->
+	    			var input = $("#texto-pesquisa-sup").val();
+	    			var r_positivo = "melhor de " + input;
+	    			var r_negativo = "o pior de " + input;
+	    			
+	    			<!-- pesquisa os resultados positivos -->
+	    			$.get ("https://www.googleapis.com/customsearch/v1",
+	    					{q:r_positivo, 
+	    					key:"AIzaSyDD6XlRThWHvfTJJjWaAfDUlnTituJCDLQ",
+	    					cx:"003587410441159855628:djaidukkxos"},
+							function( data ) {
+	    						
+	    						var html = "";
+	    					      for (var i = 0; i < data.items.length; i++) {
+	    					          var item = data.items[i];
+	    					          var titulo = item.htmlTitle;
+	    					          var snippet = item.htmlSnippet;
+	    					          <!-- retira quebra de linha -->
+	    					          snippet = snippet.replace(/<br>?\r?\n|\r/g, " ");
+	    					          
+	    					          html += "<div><div class='text-sm-left'><a  href='" + item.link + "'> " + titulo + "</a></div>";
+	    					          html += snippet + "</div>";	    					          
+	    					        }
+	    					      $("#resultado-positivo").html(html);    							
+	    					});		
+	    				
+	    			<!-- pesquisa os resultados negativos -->
+	    			$.get ("https://www.googleapis.com/customsearch/v1",
+	    					{q:r_negativo, 
+	    					key:"AIzaSyDD6XlRThWHvfTJJjWaAfDUlnTituJCDLQ",
+	    					cx:"003587410441159855628:djaidukkxos"},
+							function( data ) {
+	    						var  html = "";
+	    					      for (var i = 0; i < data.items.length; i++) {
+	    					          var item = data.items[i];
+	    					          var titulo = item.htmlTitle;
+	    					          var snippet = item.htmlSnippet;
+	    					          <!-- retira quebra de linha -->
+	    					          snippet = snippet.replace(/<br>?\r?\n|\r/g, " ");
+	    					          html += "<div class='text-sm-left'><div class='text-sm-left'><a  href='" + item.link + "'> " + titulo + "</a></div>";
+	    					          html += snippet + "</div>";	    					          
+	    					        }
+	    					      $("#resultado-negativo").html(html);
+	    					});
+				});
+		});
+
+	
+    </script>
+
+  </body>
+
+
+</html>
+
+
