@@ -5,7 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <script src="Controller\Pesquisa.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA92vJcSh-E1dHxejJ3cgXzjOTUVcnoGyo&libraries=places"></script>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" 
     	integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
@@ -34,9 +35,9 @@
 		 </a>
 
 		<div class="form-inline" >
-    		<input id="texto-pesquisa-sup" class="form-control"  type="text" 
+    		<input id="texto-pesquisa-sup" class="form-control"  type="text" onFocus="initAutocomplete(document.getElementById('texto-pesquisa-sup').id)"
     			placeholder="Persquisar por qual região" aria-label="Search">
-    		<button id="bt-pesquisa-sup" class="btn btn-outline-success" 
+    		<button id="bt-pesquisa-sup" class="btn btn-outline-success" onclick="realizaPesquisa();"
     			type="button">Pesquisar!</button>
 		</div>
     			<button class="navbar-toggler" type="button" data-toggle="collapse" 
@@ -60,11 +61,11 @@
       	<div class="col-lg-10">
         	<div class="input-group">
 	
-        	  	<input id="texto-pesquisa-inf" type="text" class="form-control" 
+        	  	<input id="texto-pesquisa-inf" type="text" class="form-control" onFocus="initAutocomplete(document.getElementById('texto-pesquisa-inf').id)"
           			placeholder="Pesquisar em qual região..." 
           			aria-label="Procurar por...">
     	      	<span class="input-group-btn">
-            		<button id="bt-pesquisa-inf"  class="btn btn-secondary" 
+            		<button id="bt-pesquisa-inf"  class="btn btn-secondary" onclick="realizaPesquisa();"
             			type="button">Pesquisar!</button>
   	        	</span>
 			</div>
@@ -139,8 +140,8 @@
 	
    </script>
 
-<script type="text/javascript">
-	<!-- Esconde a pesquisa na parte inferior e faz a consulta ao google -->
+<!-- <script type="text/javascript">
+	
 	$(document).ready(
 		function(){
 			$("#bt-pesquisa-inf").click(function(){
@@ -154,12 +155,12 @@
 				});
 
 			$("#bt-pesquisa-sup").click(function(){
-				<!-- Faz a pesquisa usando a api do google -->
+				
 	    			var input = $("#texto-pesquisa-sup").val();
 	    			var r_positivo = "melhor de " + input;
 	    			var r_negativo = "o pior de " + input;
 	    			
-	    			<!-- pesquisa os resultados positivos -->
+	    			
 	    			$.get ("https://www.googleapis.com/customsearch/v1",
 	    					{q:r_positivo, 
 	    					key:"AIzaSyDD6XlRThWHvfTJJjWaAfDUlnTituJCDLQ",
@@ -171,7 +172,7 @@
 	    					          var item = data.items[i];
 	    					          var titulo = item.htmlTitle;
 	    					          var snippet = item.htmlSnippet;
-	    					          <!-- retira quebra de linha -->
+	    					          
 	    					          snippet = snippet.replace(/<br>?\r?\n|\r/g, " ");
 	    					          
 	    					          html += "<div><div class='text-sm-left'><a  href='" + item.link + "'> " + titulo + "</a></div>";
@@ -180,7 +181,7 @@
 	    					      $("#resultado-positivo").html(html);    							
 	    					});		
 	    				
-	    			<!-- pesquisa os resultados negativos -->
+	    			
 	    			$.get ("https://www.googleapis.com/customsearch/v1",
 	    					{q:r_negativo, 
 	    					key:"AIzaSyDD6XlRThWHvfTJJjWaAfDUlnTituJCDLQ",
@@ -191,7 +192,7 @@
 	    					          var item = data.items[i];
 	    					          var titulo = item.htmlTitle;
 	    					          var snippet = item.htmlSnippet;
-	    					          <!-- retira quebra de linha -->
+	    					          
 	    					          snippet = snippet.replace(/<br>?\r?\n|\r/g, " ");
 	    					          html += "<div class='text-sm-left'><div class='text-sm-left'><a  href='" + item.link + "'> " + titulo + "</a></div>";
 	    					          html += snippet + "</div>";	    					          
@@ -202,7 +203,7 @@
 		});
 
 	
-    </script>
+    </script> -->
 
   </body>
 
